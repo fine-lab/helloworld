@@ -1,0 +1,46 @@
+spring:
+  profiles:
+    active: debug
+  application:
+    name: SCSData
+  data:
+    mongodb:
+      host: 120.46.175.13
+      database: scsdata
+      port: 27017
+      username: user
+      password: "041767"
+      authentication-database: scsdata
+  servlet:
+    multipart:
+      max-file-size: 10MB # 单次请求多个文件的最大大小
+      max-request-size: 2MB # 单次请求单个文件的最大大小
+
+server:
+  port: 8000
+  servlet:
+    # 解决shiro首次重定向携带jsessionid的问题
+    session:
+      tracking-modes: cookie
+      cookie:
+        http-only: true
+
+--- #------------------------------------------------------------------------------开发环境
+spring:
+  profiles: debug
+  resources:
+    static-locations: file:${scsdata.file-directory}
+# 程序相关属性配置
+pp:
+  file-directory: D:\anything\SCSDataFile\files\
+  server-ip: localhost
+
+--- #---------------------------------------------------------------------------------运行环境
+spring:
+  profiles: release
+  resources:
+    static-locations: file:${scsdata.file-directory}
+# 程序路径以及ip配置
+scsdata:
+  file-directory: /home/lq/SCSDBackEnd/files/
+  server-ip: 120.46.175.13
